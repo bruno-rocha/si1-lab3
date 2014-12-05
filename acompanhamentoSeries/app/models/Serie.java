@@ -14,7 +14,7 @@ public class Serie {
 	@Column
 	private String nome;
 	@Column
-	private boolean acompanhando;
+	private boolean acompanhada;
 	@Column
 	private int qtdTemporadas;
 	
@@ -24,7 +24,7 @@ public class Serie {
 
 	public Serie() {
 		temporadas = new ArrayList<>();
-		acompanhando = false;
+		acompanhada = false;
 		qtdTemporadas = temporadas.size();
 	}
 	
@@ -70,12 +70,12 @@ public class Serie {
 		this.temporadas = temporadas;
 	}
 	
-	public boolean isAcompanhando() {
-		return acompanhando;
+	public boolean isAcompanhada() {
+		return acompanhada;
 	}
 	
-	public void setAcompanhando(boolean acompanhando) {
-		this.acompanhando = acompanhando;
+	public void setAcompanhada(boolean acompanhada) {
+		this.acompanhada = acompanhada;
 	}
 
 	public int getQtdTemporadas() {
@@ -85,7 +85,6 @@ public class Serie {
 	public void setQtdTemporadas(int qtdTemporadas) {
 		this.qtdTemporadas = qtdTemporadas;
 	}
-	
 	
 }
 

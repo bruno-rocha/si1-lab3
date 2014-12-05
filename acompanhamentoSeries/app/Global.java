@@ -33,6 +33,20 @@ public class Global extends GlobalSettings {
 		});
 	}
 	
+	@Override
+	public void onStop(Application app){
+	    JPA.withTransaction(new play.libs.F.Callback0() {
+	    @Override
+	    public void invoke() throws Throwable {
+	        Logger.info("Aplicação finalizando...");
+	        series = dao.findAllByClassName("Serie");
+
+	        for (Serie serie: series) {
+	        dao.removeById(Serie.class, serie.getId());
+	       } 
+	    }}); 
+	}
+	
 	private void readCSV() throws IOException{
 		File csv = new File("seriesFinalFile.csv");
 		BufferedReader br = new BufferedReader(new FileReader(csv)); 
