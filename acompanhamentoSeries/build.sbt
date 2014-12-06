@@ -1,4 +1,4 @@
-name := """metasSemanais"""
+name := """acompanhamentoSeries"""
 
 version := "1.0-SNAPSHOT"
 

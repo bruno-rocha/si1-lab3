@@ -50,7 +50,6 @@ public class Application extends Controller {
 	public static Result cancelaEpisodio(Long id){
 		Episodio ep = getDAO().findByEntityId(Episodio.class, id);
 		ep.setAssistido(false);
-		ep.getTemporada().verificaStatus();
 		getDAO().merge(ep);
 		getDAO().flush();
 		
@@ -63,7 +62,6 @@ public class Application extends Controller {
 	public static Result assisteEpisodio(Long id){
 		Episodio ep = getDAO().findByEntityId(Episodio.class, id);
 		ep.setAssistido(true);
-		ep.getTemporada().verificaStatus();
 		getDAO().merge(ep);
 		getDAO().flush();
 		

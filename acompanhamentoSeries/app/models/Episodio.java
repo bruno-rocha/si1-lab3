@@ -59,6 +59,7 @@ public class Episodio {
 
 	public void setAssistido(boolean assistido) {
 		this.assistido = assistido;
+		this.temporada.verificaStatus();
 	}
 
 	public Temporada getTemporada() {
