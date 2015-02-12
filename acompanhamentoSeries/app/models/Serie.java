@@ -5,8 +5,13 @@ import java.util.List;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name="Serie")
 public class Serie {
+	@Transient
+	public int EP_SEGUINTE = 1;
+	@Transient
+	public int EP_MAIS_ANTIGO = 2;
+
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -17,15 +22,21 @@ public class Serie {
 	private boolean acompanhada;
 	@Column
 	private int qtdTemporadas;
-	
+
+
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="TEMPS")
 	private List<Temporada> temporadas;
+
+	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JoinColumn(name="opcao_recomendacao")
+	Recomendacao opcaoRecomendacao;
 
 	public Serie() {
 		temporadas = new ArrayList<>();
 		acompanhada = false;
 		qtdTemporadas = temporadas.size();
+		this.setOpcaoRecomendacao(new RecomendaEpSeguinte());
 	}
 	
 	public Serie(String nome){
@@ -85,6 +96,14 @@ public class Serie {
 	public void setQtdTemporadas(int qtdTemporadas) {
 		this.qtdTemporadas = qtdTemporadas;
 	}
-	
+
+	public Recomendacao getOpcaoRecomendacao() {
+		return opcaoRecomendacao;
+	}
+
+	public void setOpcaoRecomendacao(Recomendacao opcaoRecomendacao) {
+		this.opcaoRecomendacao = opcaoRecomendacao;
+	}
+
 }
 

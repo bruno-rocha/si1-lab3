@@ -9,7 +9,7 @@
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js")"></script>        
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="@routes.Assets.at("javascripts/bootstrap.min.js")"></script>        
     <script src="@routes.Assets.at("javascripts/bootstrap.js")"></script>        
     <script src="@routes.Assets.at("javascripts/hello.js")"></script>        
@@ -70,6 +70,32 @@
 						<h5 data-toggle="collapse" data-target="#temporadas@serie.getId()">@serie.getNome()</h5>
 					</li>
 					<div class="collapse" id="temporadas@serie.getId()">
+
+						<div class="panel panel-default">
+							<br>
+							<h4 class="panel-title"><strong>Como pretende que o sistema recomende seus episódios?</strong></h4>
+							<form action="@routes.Application.setOpcaoRecomendacao(serie.getId())" method="post">
+								<div class="radio">
+										<label>
+											<input class="btn btn-xs arrow" type="submit" name="opcao" id="opcao1"
+											value="1"> Recomende o mais recente que não vi
+										</label>
+								</div>
+								<div class="radio">
+										<label>
+											<input class="btn btn-xs arrow" type="submit"  name="opcao" id="opcao2"
+											value="2"> Recomende o mais antigo
+										</label>
+								</div>
+								<div class="radio">
+										<label>
+											<input class="btn btn-xs arrow" type="submit"  name="opcao" id="opcao2"
+											value="3"> Indique o mais antigo, mas não indique nenhum depois do qual eu já tenha visto 3 ou mais episódios
+										</label>
+								</div>
+							</form>
+						</div>
+
 					@for(temporada <- serie.getTemporadas()){
 						@if(temporada.getStatus == -1){
 							<li class="list-group-item yellow-bg" data-toggle="collapse" data-target="#episodios@temporada.getId()">
@@ -101,7 +127,7 @@
 								</li>										
 							}
 						}
-						<li class="list-group-item"><strong>Próximo:</strong> @temporada.getProximoEpisodio()</li>
+						<li class="list-group-item"><strong>Próximo:</strong> @temporada.getProximoEpisodio(serie.getOpcaoRecomendacao)</li>
 						</div>
 					}
 					</div>

@@ -20,7 +20,7 @@ public class Global extends GlobalSettings {
 
 	private static GenericDAO dao = new GenericDAO();
 	List<Serie> series = new ArrayList<>();
-	
+
 	@Override
 	public void onStart(Application app) {
 		Logger.info("Aplicação inicializada...");
@@ -32,7 +32,7 @@ public class Global extends GlobalSettings {
 			}
 		});
 	}
-	
+
 	@Override
 	public void onStop(Application app){
 	    JPA.withTransaction(new play.libs.F.Callback0() {
@@ -43,41 +43,41 @@ public class Global extends GlobalSettings {
 
 	        for (Serie serie: series) {
 	        dao.removeById(Serie.class, serie.getId());
-	       } 
-	    }}); 
+	       }
+	    }});
 	}
-	
+
 	private void readCSV() throws IOException{
-		File csv = new File("seriesFinalFile.csv");
-		BufferedReader br = new BufferedReader(new FileReader(csv)); 
+		File csv = new File("conf/seriesFinalFile.csv");
+		BufferedReader br = new BufferedReader(new FileReader(csv));
 		String line = br.readLine();
 		String[] linha = line.split(",");
-		
+
 		String serieLinha;
 		int temporadaLinha;
 		String episodioLinha;
-		
+
 		String serieAtualNome = linha[0];
 		int temporadaAtualNum = 1;
 		int epLinhaNum = Integer.parseInt(linha[2]);
 		String episodioAtual = linha[3];
-		
+
 		Serie serieAtual = new Serie(serieAtualNome);
 
 		Temporada temporadaAtual = new Temporada(1, serieAtual);
 		Episodio epAtual = new Episodio(episodioAtual, temporadaAtual, epLinhaNum);
 		temporadaAtual.addEpisodio(epAtual);
 		serieAtual.addTemporada(temporadaAtual);
-		
+
 		while((line = br.readLine()) != null){
 			linha = line.split(",");
-			
+
 			if(linha.length > 3){
 				serieLinha = linha[0];
 				temporadaLinha = Integer.parseInt(linha[1]);
 				epLinhaNum = Integer.parseInt(linha[2]);
 				episodioLinha = linha[3];
-		
+
 				if(serieLinha.equals(serieAtualNome)){
 					if(temporadaLinha == temporadaAtualNum){
 						if(!episodioLinha.equals(episodioAtual)){
@@ -94,7 +94,7 @@ public class Global extends GlobalSettings {
 				}
 				else{
 					dao.persist(serieAtual);
-					
+
 					serieAtualNome = serieLinha;
 					temporadaAtualNum = 1;
 					episodioAtual = episodioLinha;
@@ -103,7 +103,7 @@ public class Global extends GlobalSettings {
 					epAtual = new Episodio(episodioAtual, temporadaAtual, epLinhaNum);
 					temporadaAtual.addEpisodio(epAtual);
 					serieAtual.addTemporada(temporadaAtual);
-					
+
 					Logger.info(serieLinha + " adicionada ao BD");
 				}
 			}
@@ -111,5 +111,5 @@ public class Global extends GlobalSettings {
 		dao.flush();
 		br.close();
 	}
-	
+
 }
