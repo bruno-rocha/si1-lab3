@@ -14,28 +14,25 @@ public class RecomendaEpApos3 extends Recomendacao{
         List<Episodio> episodios = temporada.getEpisodios();
 
         String result = episodios.get(0).getNumero() + " - " + episodios.get(0).getNome();
-        int proxEp = 0;
+        int proxEp = -1;
         int aux = 0;
         boolean flag = false;
         for (int i = 0; i <= temporada.getQtdEpisodios() - 1; i++) {
-            if(!episodios.get(i).isAssistido()){
+            if(!episodios.get(i).isAssistido()) {
                 proxEp = i;
-                result = episodios.get(i).getNumero() + " - " + episodios.get(i).getNome();
-                for (int j = proxEp; j <= temporada.getQtdEpisodios() - 1; j++){
-                    if (episodios.get(i).isAssistido()){
-                        aux++;
-                        if (aux == 3){
-                            break;
-                        }else{
-                            flag = true;
-                        }
-                    }
-                }
-                if (flag == true){
-                    break;
-                }
-
+                flag = true;
+                result = episodios.get(proxEp).getNumero() + " - " + episodios.get(proxEp).getNome();
+            }else if (episodios.get(i).isAssistido() && flag == true){
+                aux++;
             }
+            if (aux == 3){
+                proxEp = -1;
+                aux = 0;
+                flag = false;
+            }
+        }
+        if (proxEp == -1){
+            return null;
         }
         return result;
     }
